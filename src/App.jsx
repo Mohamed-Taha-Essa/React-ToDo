@@ -8,9 +8,14 @@ function App() {
 
   return (
     
-      <div>
-       <CreateToDo/>
-       <ToDos/>
+      <div className="container">
+        <div className="row ">
+          <div className="col-lg-8 mx-auto">
+            <CreateToDo/>
+            <ToDos/>
+          </div>
+        </div>
+      
       </div>
       
     
