@@ -19,8 +19,12 @@ const CreateToDo =({todos,settodos})=>
             body :JSON.stringify(newTodo)
         })
         .then(response => response.json())
-        .then(data =>{ settodos([...todos ,newTodo])})
-        
+        .then(data =>{ 
+            settodos([...todos ,newTodo])
+            setTitle("")
+            setStatus('DONE')
+        })
+
     }
 
 
