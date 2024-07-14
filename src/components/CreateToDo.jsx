@@ -1,29 +1,18 @@
 import { useState } from "react"
-
-const CreateToDo =({todos,settodos})=>
+import useTodoStore from "../store"
+const CreateToDo =()=>
 {
-
+    const createTodo = useTodoStore((state) => state.createTodo);
     const [title,setTitle] =useState("")
     const [status ,setStatus] =useState('INPROGRESS')
 
     const addTodo=(e) =>{
         e.preventDefault();
         const newTodo = {title,status}
-          
-        fetch('http://127.0.0.1:8000/todo/' ,{
-            method  : 'POST' ,
-            headers:{
-                'Content-Type': 'application/json'
-
-            },
-            body :JSON.stringify(newTodo)
-        })
-        .then(response => response.json())
-        .then(data =>{ 
-            settodos([...todos ,newTodo])
-            setTitle("")
-            setStatus('DONE')
-        })
+        createTodo(newTodo)
+       
+        setTitle("")
+        setStatus('DONE')
 
     }
 

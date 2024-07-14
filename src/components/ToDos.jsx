@@ -1,36 +1,30 @@
-import { useState } from "react"
-
-const ToDos =({todos,settodos})=>
+import { useEffect, useState } from "react"
+import useTodoStore from "../store"
+const ToDos =()=>
     {
+        const {todos,fetchTodos,updateTodo,deleteTodo} =useTodoStore((state)=>({
+            todos :state.todos,
+            fetchTodos :state.fetchTodos ,
+            updateTodo : state.updateTodo,
+            deleteTodo :state.deleteTodo
+        }))
+
+        useEffect(()=>{
+
+            fetchTodos()
+        })
 
         const TodoUpdate= (todo)=>{
-            const updatedStatus = todo.status == 'DONE' ?'INPROGRESS' :'DONE'
-            fetch(`http://127.0.0.1:8000/todo/${todo.id}/`,{
-                method:'PUT',
-                headers:{
-                    'Content-Type': 'application/json'
-
-                },
-                body :JSON.stringify({title:todo.title ,status:updatedStatus})
-            })
-            .then(response => response.json())
-            .then(data => settodos(todos.map(oldtodo => oldtodo.id == todo.id ?todo :oldtodo  ))
-        )
+            const updatedTodo ={
+                id :todo.id,
+                title:todo.title ,
+                status : todo.status == 'DONE' ?'INPROGRESS' :'DONE'
+            }
+            updateTodo(updatedTodo)
         }
         const handleDeletTodo= (todo)=>{
-            fetch(`http://127.0.0.1:8000/todo/${todo.id}/`,{
-                method:'DELETE',
-                headers:{ 'Content-Type': 'application/json'},
-            })
-            .then(response => {
-                if (response.ok) {
-                    settodos(todos.filter(oldtodo => oldtodo.id !== todo.id));
-                } else {
-                    console.error('Failed to delete');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-                
+          
+            deleteTodo(todo)
         }
      
         return(
