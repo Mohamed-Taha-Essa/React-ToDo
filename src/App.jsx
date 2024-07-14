@@ -9,21 +9,23 @@ function App() {
   const [todos ,settodos] =useState([])
 
   useEffect(()=>{
-    fetch('http://127.0.0.1:8000/todo')
+    fetch('http://127.0.0.1:8000/todo/')
     .then(response=>response.json())
     .then(data =>settodos(data))
   })
   // const onUpdateTodo =(updatedtodo)=>{
   //   settodos(todos.map(todo => todo.id == updatedtodo.id ?updatedtodo :todo  ))
   // }
-
+const onCreateTodo =(newTodo)=>{
+  settodos([...todos ,newTodo])
+}
   return (
     
       <div className="container">
         <div className="row ">
           <div className="col-lg-8 mx-auto">
-            <CreateToDo/>
-            <ToDos todos={todos} settodos={settodos}/>
+            <CreateToDo todos={todos} settodos={settodos} />
+            <ToDos todos={todos} settodos={settodos} />
           </div>
         </div>
       
